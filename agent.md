@@ -14,9 +14,11 @@ Get the robot moving reliably before building more features.
 
 ## Current Blocker
 
-- Motion did not work.
+- Motion did not work reliably.
 - The strongest evidence so far points to the hardware/controller path rather than the keyboard teleop logic.
 - Earlier logs showed `ros_robot_controller` throwing a serial exception: `device reports readiness to read but returned no data (device disconnected or multiple access on port?)`.
+- The controller stack was able to receive motion commands, but the chassis still did not exhibit consistent motion, which suggests a protocol, baud, or serial-availability problem between the ROS node and the motor board.
+- The new probe script at [Scripts/jetauto_forward_probe.py](Scripts/jetauto_forward_probe.py) should be used as the first repro case before trying more complex teleop logic.
 
 ## Useful Files
 

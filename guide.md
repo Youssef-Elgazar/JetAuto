@@ -26,8 +26,13 @@ Official reference:
 - The detector-only variant is [scripts/jetauto_object_detector_only.py](scripts/jetauto_object_detector_only.py).
 - The keyboard teleop script is [scripts/jetauto_wasd_qe_teleop.py](scripts/jetauto_wasd_qe_teleop.py).
 - The forward motion probe is [scripts/jetauto_forward_test.py](scripts/jetauto_forward_test.py).
+- The new reusable probe script is [Scripts/jetauto_forward_probe.py](Scripts/jetauto_forward_probe.py).
 - The most important current finding is that motion still did not work because the controller path appears unhealthy.
-- Earlier logs showed `ros_robot_controller` failing with a serial read exception, which is the first thing to fix before iterating on teleop or obstacle avoidance.
+- The higher-level motion command path is reachable: publishing to `/controller/cmd_vel` and `/ros_robot_controller/set_motor` was observed by the controller stack, but the robot still did not visibly move.
+- The strongest evidence points to the board/serial boundary rather than the Twist publisher itself.
+- The controller node uses [ros2_ws/src/driver/ros_robot_controller/launch/ros_robot_controller.launch.py](/home/ubuntu/ros2_ws/src/driver/ros_robot_controller/launch/ros_robot_controller.launch.py) and defaults to `/dev/ttyACM0` at 1,000,000 baud.
+- During debugging, `ros_robot_controller` was seen failing with a serial read exception and the board did not produce a healthy, consistent response to basic queries.
+- The robot controller stack and the test script were launched and stopped multiple times, but the motion behavior remained inconsistent and not yet validated end to end.
 - Local YOLO weights are available under `/home/ubuntu/third_party/yolo/yolov11/`.
 
 ## Suggested Lab Workflow

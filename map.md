@@ -117,3 +117,10 @@ If you want to rebuild the custom app cleanly, the practical order is:
 2. the app menu nodes in [ros2_ws/src/app/app/](/home/ubuntu/ros2_ws/src/app/app)
 3. voice control in [ros2_ws/src/xf_mic_asr_offline/scripts/](/home/ubuntu/ros2_ws/src/xf_mic_asr_offline/scripts)
 4. larger demo stacks in [ros2_ws/src/large_models_examples/large_models_examples/](/home/ubuntu/ros2_ws/src/large_models_examples/large_models_examples)
+
+## Motion debugging notes
+
+- The most direct motion repro is [Scripts/jetauto_forward_probe.py](Scripts/jetauto_forward_probe.py), which publishes a short forward Twist to `/controller/cmd_vel` and then stops.
+- The controller stack must be launched before running the probe, otherwise the command will be published without any active chassis node to consume it.
+- The board-facing node is [ros2_ws/src/driver/ros_robot_controller/ros_robot_controller/ros_robot_controller_node.py](/home/ubuntu/ros2_ws/src/driver/ros_robot_controller/ros_robot_controller/ros_robot_controller_node.py), and it depends on the SDK implementation in [ros2_ws/src/driver/ros_robot_controller/ros_robot_controller/ros_robot_controller_sdk.py](/home/ubuntu/ros2_ws/src/driver/ros_robot_controller/ros_robot_controller/ros_robot_controller_sdk.py).
+- The current blocker is still at the serial/controller boundary; the remaining work should focus on board connectivity and protocol compatibility before changing the higher-level app logic.
